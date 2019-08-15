@@ -35,10 +35,10 @@ export default class App extends Component {
   };
 
   render() {
-    const { name, email, todos, specialMessage } = this.state;
+    const { name, email, todos } = this.state;
     return (
       <div>
-        <h2>OMFG IT WORKS!!</h2>
+        <h2>OMFG IT WORKS!!BABBABOOEY</h2>
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"

@@ -36,6 +36,9 @@ services:
       dockerfile: ./api/Dockerfile
     ports:
       - '9000:9000'
+      - '5431:5432'
+    depends_on:
+      - postgres
     volumes:
       - ./api:/api
       - /api/node_modules
