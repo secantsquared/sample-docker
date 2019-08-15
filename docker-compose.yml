@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  react:
+    container_name: reactapp
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    volumes:
+      - ./client:/client
+      - /client/node_modules
+    networks:
+      - reactappnetwork
+    ports:
+      - '3001:3000'
+    environment:
+      - NODE_ENV=development
+
+  postgres:
+    image: postgres
+    environment:
+      - 'POSTGRES_PASSWORD=postgres'
+    networks:
+      - reactappnetwork
+    ports:
+      - '5432:5432'
+    volumes:
+      - /var/lib/postgresql/data
+
+  api:
+    container_name: expressapi
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    ports:
+      - '9000:9000'
+    volumes:
+      - ./api:/api
+      - /api/node_modules
+    depends_on:
+      - postgres
+    networks:
+      - reactappnetwork
+
+
+networks:
+  reactappnetwork:
+    driver: bridge
