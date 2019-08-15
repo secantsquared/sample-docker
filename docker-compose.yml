@@ -3,6 +3,7 @@ version: '3'
 services:
   react:
     container_name: reactapp
+    image: ryanboris/reactapp:latest
     build:
       context: .
       dockerfile: ./client/Dockerfile
@@ -29,6 +30,7 @@ services:
 
   api:
     container_name: expressapi
+    image: ryanboris/expressapi:latest
     build:
       context: .
       dockerfile: ./api/Dockerfile

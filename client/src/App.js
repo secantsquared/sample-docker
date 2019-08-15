@@ -39,7 +39,7 @@ export default class App extends Component {
     const { name, email, todos, specialMessage } = this.state;
     return (
       <div>
-        <h2>OMFG IT WORKS</h2>
+        <h2>OMFG IT WORKS!!</h2>
         <h3>{specialMessage}</h3>
         <form onSubmit={this.handleSubmit}>
           <input
