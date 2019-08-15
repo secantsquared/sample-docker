@@ -3,24 +3,19 @@ const cors = require('cors');
 const server = express();
 const db = require('./data/dbConfig');
 
+server.use(express.json());
 server.use(cors());
 
-server.get('/', async (req, res) => {
-  try {
-    const response = db('todos');
-    res.status(200).json(response);
-  } catch (err) {
-    res.status(500).json({ error: 'Error!' });
-  }
+server.get('/', (req, res) => {
+  db('todos').then(response => {
+    return res.status(200).send(response);
+  });
 });
-server.post('/', async (req, res) => {
+server.post('/', (req, res) => {
   const body = req.body;
-  try {
-    const response = await db('todos').insert(body);
-    res.status(200).json(response);
-  } catch (err) {
-    res.status(500).json({ error: 'Error!' });
-  }
+  db('todos')
+    .insert(body)
+    .then(response => res.status(201).send(response));
 });
 
 server.listen(9000, () => {

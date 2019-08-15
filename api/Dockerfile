@@ -12,4 +12,6 @@ COPY ./api/package.json ./package.json
 
 RUN npm install
 
+RUN npx knex migrate:latest
+
 CMD ["npm", "run", "server"]

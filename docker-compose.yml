@@ -4,6 +4,9 @@ services:
   react:
     container_name: reactapp
     image: ryanboris/reactapp:latest
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
     volumes:
       - ./client:/client
       - /client/node_modules
@@ -23,18 +26,19 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - /var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
 
   api:
     container_name: expressapi
     image: ryanboris/expressapi:latest
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
     ports:
       - '9000:9000'
     volumes:
       - ./api:/api
       - /api/node_modules
-    depends_on:
-      - postgres
     networks:
       - reactappnetwork
 
@@ -42,3 +46,6 @@ services:
 networks:
   reactappnetwork:
     driver: bridge
+
+volumes:
+  postgres:

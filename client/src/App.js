@@ -5,17 +5,19 @@ export default class App extends Component {
   state = {
     todos: [],
     name: '',
-    email: '',
-    id: 0
+    email: ''
   };
 
   componentDidMount() {
-    axios
-      .get('http://localhost:9000')
-      .then(response => this.setState({ specialMessage: response.data }))
-      .catch(err => console.error(err));
+    this.fetchData();
   }
 
+  fetchData = () => {
+    return axios
+      .get('http://localhost:9000')
+      .then(response => this.setState({ todos: response.data }))
+      .catch(err => console.error(err));
+  };
   handleChange = e => {
     const name = e.target.name;
     const value = e.target.value;
@@ -23,16 +25,13 @@ export default class App extends Component {
   };
 
   handleSubmit = e => {
-    const { name, email, todos } = this.state;
-    console.log(this.state);
+    const { name, email } = this.state;
     e.preventDefault();
-    this.setState(prevState => {
-      return {
-        todos: [...todos, { name, email, id: prevState.id++ }],
-        name: '',
-        email: ''
-      };
-    }, console.log('updated'));
+    axios
+      .post('http://localhost:9000', { name, email })
+      .then(() => this.fetchData())
+      .then(() => this.setState({ name: '', email: '' }))
+      .catch(err => console.error(err));
   };
 
   render() {
@@ -40,7 +39,6 @@ export default class App extends Component {
     return (
       <div>
         <h2>OMFG IT WORKS!!</h2>
-        <h3>{specialMessage}</h3>
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"
